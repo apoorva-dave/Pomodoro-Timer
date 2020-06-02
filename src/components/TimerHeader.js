@@ -3,6 +3,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 
 class TimerHeader extends React.Component {
 
+	// handles the display of timer header
 	handleDisplay = () => {
 		if(this.props.intervalType === "Working")
 		{
@@ -34,7 +35,6 @@ class TimerHeader extends React.Component {
 
 const styles = StyleSheet.create({
   textStyle: {
-    color: "#C2362B",
     fontSize: 25,
     fontWeight: "500",
     letterSpacing: 1.5,

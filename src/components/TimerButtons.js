@@ -1,8 +1,10 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 class TimerButtons extends React.Component {
 	state = {};
+
+	//renders pause, play and reset buttons
 	render() {
 		if(this.props.running === true)
 		{
