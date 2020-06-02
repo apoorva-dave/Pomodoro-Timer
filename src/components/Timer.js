@@ -1,9 +1,9 @@
 import React from 'react';
-import { Vibration, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, TextInput } from 'react-native';
 import TimerHeader from './TimerHeader'
 import TimerDisplay from './TimerDisplay'
 import TimerButtons from './TimerButtons'
-
+import {vibrate} from '../../utils'
 
 class Timer extends React.Component {
 
@@ -15,38 +15,46 @@ class Timer extends React.Component {
 		}
 	}
 
+	// gets called when a stream of new props arrive from parent component
 	componentWillReceiveProps(nextProps) {
     	this.setState({ running: false, time: nextProps.period * 60 });
 	  }
 
 	render() {
-		return(
+		return (
 			<View>
-			<TimerHeader 
-				running={this.state.running}
-				intervalType={this.props.intervalType}
-			/>
-			<TimerDisplay
-				time={this.state.time}
-			/>
-			<TimerButtons
-				play={this.handlePlay}
-				pause={this.handlePause}
-				reset={this.handleReset}
-				running={this.state.running}
-			/>
+				<TimerHeader
+					running={this.state.running}
+					intervalType={this.props.intervalType}
+				/>
+				<TimerDisplay
+					time={this.state.time}
+				/>
+				<TimerButtons
+					play={this.handlePlay}
+					pause={this.handlePause}
+					reset={this.handleReset}
+					running={this.state.running}
+				/>
 			</View>
 		)
 	}
 
+	// Invoked immediately after update occurs
 	componentDidUpdate() {
 		if(this.state.running === true && this.state.time == 0)
 		{
 			clearInterval(this.timerId)
-			Vibration.vibrate([500, 500, 500])
+			vibrate()
 			this.props.Oncomplete()
 		}
+		else if(this.state.running === false)
+		{
+			clearInterval(this.timerId)
+		}
 	}
+
+	// gets triggered when Play button is pressed
  	handlePlay = () => {
 		this.setState({
 			running: true
@@ -58,6 +66,7 @@ class Timer extends React.Component {
 		}, 1000)
 	}
 
+	//gets triggered when Pause button is pressed
 	handlePause = () => {
 		clearInterval(this.timerId)
 		this.setState({
@@ -65,6 +74,7 @@ class Timer extends React.Component {
 		})
 	}
 
+	// gets triggered when Reset button is pressed
 	handleReset = () => {	
 		clearInterval(this.timerId)
 		this.setState({
@@ -75,3 +85,16 @@ class Timer extends React.Component {
 }
 
 export default Timer;
+
+const styles = StyleSheet.create({
+  textStyle: {
+    color: "#C2362B",
+    fontSize: 25,
+    fontWeight: "500",
+    letterSpacing: 1.5,
+    fontFamily: Platform.OS == "android" ? "notoserif" : "system",
+    marginTop: 40,
+    padding: 20
+  }
+});
+
