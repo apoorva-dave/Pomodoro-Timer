@@ -30,17 +30,37 @@ class PomodoroTimer extends React.Component {
 	}
 
 	// gets triggered on change of worktimer text
-	handleWorkTime = (text) =>{
-		this.setState({
-			workTime: text
-		})
+	handleWorkTime = (text) =>
+	{
+		if(text >= 0)
+		{
+			this.setState({
+				workTime: text
+			})
+		}
+		else{
+			alert("Time invalid. Setting value to default. Please enter valid time")
+			this.setState({
+				workTime: 25
+			})
+		}
 	}
 
 	// gets triggered on change of breaktimer text
 	handleBreakTime = (text) =>{
-		this.setState({
-			breakTime: text
-		})
+		if(text >= 0)
+		{
+			this.setState({
+				breakTime:  text
+			})
+		}
+		else
+		{
+			alert("Time invalid. Setting value to default. Please enter valid time")
+			this.setState({
+				breakTime: 5
+			})
+		}
 	}
 
 	// called to set the timer's time
@@ -62,11 +82,11 @@ class PomodoroTimer extends React.Component {
 				<View style={styles.row}>
 					<View style={styles.inputWrap}>
 						<Text style={styles.textStyle}>WorkTime</Text>
-						<TextInput  style={styles.textStyle}  defaultValue={''+this.state.workTime} placeholder = "workTime" onChangeText={this.handleWorkTime} />
+						<TextInput  style={styles.textStyle}  keyboardType={"numeric"} defaultValue={''+this.state.workTime} placeholder = "workTime in mins" onChangeText={this.handleWorkTime} />
 					</View>
 					<View style={styles.inputWrap}>
 						<Text style={styles.textStyle}>BreakTime</Text>
-						<TextInput  style={styles.textStyle}  defaultValue={''+this.state.breakTime} placeholder = "breakTime" onChangeText={this.handleBreakTime} />
+						<TextInput  style={styles.textStyle}  keyboardType={"numeric"} defaultValue={''+this.state.breakTime} placeholder = "breakTime in mins" onChangeText={this.handleBreakTime} />
 					</View>
 				</View>
 				<Timer
